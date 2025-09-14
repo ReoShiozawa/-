@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情報Ⅰ知識テスト - 楽しく学べるクイズアプリ</title>
+    <meta name="description" content="情報通信技術に関する1717問のクイズで楽しく学習。カテゴリ別・難易度別で効率的に知識を身につけよう！">
+    <meta name="keywords" content="情報,クイズ,学習,ICT,コンピュータ,プログラミング,ネットワーク">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    
+    <!-- PWA最適化 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="情報クイズ">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%234f46e5'/%3E%3Ctext x='96' y='120' font-family='sans-serif' font-size='80' text-anchor='middle' fill='white'%3E🖥️%3C/text%3E%3C/svg%3E">
+    
+    <!-- パフォーマンス最適化 -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+</head>
+<body>
+    <!-- スキップリンク（スクリーンリーダー用） -->
+    <a href="#main-content" class="sr-only">メインコンテンツにスキップ</a>
+    
+    <!-- パーティクル背景 -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- ローディングスクリーン -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">🖥️</div>
+            <div class="loading-text">情報Ⅰ知識テスト</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-subtitle">準備中...</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <header role="banner" class="hero-header">
+            <div class="hero-content">
+                <div class="hero-icon">🖥️</div>
+                <h1 class="hero-title">情報Ⅰ知識テスト</h1>
+                <p class="hero-subtitle">情報通信技術に関する1717問のクイズに挑戦しよう！</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1717</span>
+                        <span class="stat-label">問題数</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">カテゴリ</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-played">0</span>
+                        <span class="stat-label">プレイ回数</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content" role="main">
+            <!-- 設定画面 -->
+            <section id="setup-screen" class="screen active" aria-labelledby="setup-title">
+                <div class="setup-container">
+                    <div class="setup-header">
+                        <h2 id="setup-title">⚙️ クイズ設定</h2>
+                        <p class="setup-description">あなたに最適な学習体験をカスタマイズしましょう</p>
+                    </div>
+                
+                    <div class="setup-grid">
+                        <div class="setup-card category-card">
+                            <div class="card-header">
+                                <h3>📚 カテゴリ選択</h3>
+                                <p>学習したいカテゴリを選択してください。複数選択可能です。</p>
+                            </div>
+                            <div class="category-grid" id="category-grid" role="group" aria-labelledby="category-title">
+                                <!-- カテゴリのチェックボックスが動的に追加される -->
+                            </div>
+                        </div>
+
+                        <div class="setup-card difficulty-card">
+                            <div class="card-header">
+                                <h3>⚡ 難易度選択</h3>
+                                <p>あなたのレベルに合った難易度を選択してください。</p>
+                            </div>
+                            <fieldset class="difficulty-options">
+                                <legend class="sr-only">難易度選択</legend>
+                                <label class="radio-option">
+                                    <input type="radio" name="difficulty" value="basic" checked aria-describedby="basic-desc">
+                                    <div class="option-content">
+                                        <span class="option-title">基礎レベル</span>
+                                        <span class="option-subtitle">定期テスト程度</span>
+                                    </div>
+                                    <div class="option-icon">📝</div>
+                                    <small id="basic-desc" class="sr-only">基本的な概念と用語の理解を確認</small>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="difficulty" value="intermediate" aria-describedby="intermediate-desc">
+                                    <div class="option-content">
+                                        <span class="option-title">中級レベル</span>
+                                        <span class="option-subtitle">共通テスト程度</span>
+                                    </div>
+                                    <div class="option-icon">🎯</div>
+                                    <small id="intermediate-desc" class="sr-only">応用的な問題と実践的な知識を確認</small>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="difficulty" value="advanced" aria-describedby="advanced-desc">
+                                    <div class="option-content">
+                                        <span class="option-title">上級レベル</span>
+                                        <span class="option-subtitle">大学・専門学校程度</span>
+                                    </div>
+                                    <div class="option-icon">🏆</div>
+                                    <small id="advanced-desc" class="sr-only">専門的で高度な内容を確認</small>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="difficulty" value="all" aria-describedby="all-desc">
+                                    <div class="option-content">
+                                        <span class="option-title">すべてのレベル</span>
+                                        <span class="option-subtitle">基礎から上級まで</span>
+                                    </div>
+                                    <div class="option-icon">⭐</div>
+                                    <small id="all-desc" class="sr-only">基礎から上級まで幅広い問題に挑戦</small>
+                                </label>
+                            </fieldset>
+                        </div>
+
+                        <div class="setup-card count-card">
+                            <div class="card-header">
+                                <h3>🎯 問題数設定</h3>
+                                <p>挑戦する問題数を設定してください。</p>
+                            </div>
+                            <div class="question-count-selector">
+                                <label for="question-count" class="sr-only">問題数選択</label>
+                                <select id="question-count" class="count-select" aria-describedby="question-count-help">
+                                    <option value="5">5問 (約3分)</option>
+                                    <option value="10" selected>10問 (約5分)</option>
+                                    <option value="20">20問 (約10分)</option>
+                                    <option value="50">50問 (約25分)</option>
+                                    <option value="all">利用可能な全問題</option>
+                                </select>
+                            </div>
+                            <p id="question-count-help" class="setup-help">
+                                💡 選択したカテゴリと難易度に応じて、利用可能な問題数が決まります
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="start-section">
+                        <button id="start-quiz" class="btn-primary start-btn" aria-describedby="start-quiz-help">
+                            <span class="btn-icon" aria-hidden="true">🚀</span>
+                            <span class="btn-text">クイズ開始</span>
+                            <span class="btn-shine"></span>
+                        </button>
+                        <p id="start-quiz-help" class="sr-only">設定した条件でクイズを開始します</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- クイズ画面 -->
+            <section id="quiz-screen" class="screen" aria-labelledby="quiz-title">
+                <div class="quiz-container">
+                    <h2 id="quiz-title" class="sr-only">クイズ問題</h2>
+                    
+                    <div class="quiz-header">
+                        <div class="progress-section">
+                            <div class="progress-info">
+                                <span id="question-counter" aria-live="polite">1 / 10</span>
+                                <span id="score" aria-live="polite">正解: 0</span>
+                            </div>
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="進捗状況">
+                                <div class="progress-fill" id="progress-fill"></div>
+                                <div class="progress-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div class="question-metadata">
+                                <div class="question-category" id="question-category" aria-label="カテゴリ">
+                                    <span class="category-icon">📚</span>
+                                    <span class="category-text">コンピュータ基礎</span>
+                                </div>
+                                <div class="question-difficulty" id="question-difficulty" aria-label="難易度">
+                                    <span class="difficulty-icon">⭐</span>
+                                    <span class="difficulty-text">基礎レベル</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="question-content">
+                            <h3 id="question-text" class="question-title" aria-live="polite">
+                                問題文がここに表示されます
+                            </h3>
+                        </div>
+                        
+                        <form class="options" id="options" role="radiogroup" aria-labelledby="question-text">
+                            <!-- 選択肢が動的に追加される -->
+                        </form>
+
+                        <div class="quiz-controls">
+                            <button id="next-question" class="btn-primary quiz-btn" disabled aria-describedby="next-help">
+                                <span class="btn-icon" aria-hidden="true">➡️</span>
+                                <span class="btn-text">次の問題</span>
+                                <span class="btn-shine"></span>
+                            </button>
+                            <button id="skip-question" class="btn-secondary quiz-btn" aria-describedby="skip-help">
+                                <span class="btn-icon" aria-hidden="true">⏩</span>
+                                <span class="btn-text">スキップ</span>
+                            </button>
+                        </div>
+                        <div class="sr-only">
+                            <span id="next-help">選択した回答で次の問題に進みます</span>
+                            <span id="skip-help">この問題をスキップして次に進みます</span>
+                        </div>
+
+                        <div id="explanation" class="explanation hidden" aria-live="polite">
+                            <div class="explanation-header">
+                                <h4>📝 解説</h4>
+                            </div>
+                            <div class="explanation-content">
+                                <p id="explanation-text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 結果画面 -->
+            <section id="result-screen" class="screen" aria-labelledby="result-title">
+                <div class="result-container">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h2 id="result-title">🎉 クイズ結果</h2>
+                            <p class="result-subtitle">お疲れ様でした！</p>
+                        </div>
+                        
+                        <div class="score-display">
+                            <div class="score-circle" role="img" aria-labelledby="score-description">
+                                <div class="score-ring">
+                                    <svg class="score-svg" viewBox="0 0 100 100">
+                                        <defs>
+                                            <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+                                                <stop offset="50%" style="stop-color:#6366f1;stop-opacity:1" />
+                                                <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle class="score-bg" cx="50" cy="50" r="45"></circle>
+                                        <circle class="score-progress" cx="50" cy="50" r="45" id="score-progress-circle"></circle>
+                                    </svg>
+                                    <div class="score-content">
+                                        <div class="score-value" id="final-score">0</div>
+                                        <div class="score-total" id="final-total">/ 10</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="score-description" class="sr-only">最終スコア</div>
+                            <div class="score-percentage" id="score-percentage" aria-live="polite">0%</div>
+                        </div>
+                        
+                        <div class="result-details" role="table" aria-label="詳細結果">
+                            <div class="result-grid">
+                                <div class="result-item correct" role="cell">
+                                    <div class="result-icon">✅</div>
+                                    <div class="result-content">
+                                        <span class="result-label">正解数</span>
+                                        <span class="result-value" id="correct-count">0</span>
+                                    </div>
+                                </div>
+                                <div class="result-item incorrect" role="cell">
+                                    <div class="result-icon">❌</div>
+                                    <div class="result-content">
+                                        <span class="result-label">不正解数</span>
+                                        <span class="result-value" id="incorrect-count">0</span>
+                                    </div>
+                                </div>
+                                <div class="result-item skipped" role="cell">
+                                    <div class="result-icon">⏩</div>
+                                    <div class="result-content">
+                                        <span class="result-label">スキップ数</span>
+                                        <span class="result-value" id="skip-count">0</span>
+                                    </div>
+                                </div>
+                                <div class="result-item weakest" role="cell">
+                                    <div class="result-icon">⚠️</div>
+                                    <div class="result-content">
+                                        <span class="result-label">苦手分野</span>
+                                        <span class="result-value" id="weakest-category">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="result-message" id="result-message" aria-live="polite">
+                            <!-- パフォーマンスメッセージ -->
+                        </div>
+
+                        <div class="result-controls">
+                            <button id="restart-quiz" class="btn-primary result-btn" aria-describedby="restart-help">
+                                <span class="btn-icon" aria-hidden="true">🔄</span>
+                                <span class="btn-text">もう一度挑戦</span>
+                                <span class="btn-shine"></span>
+                            </button>
+                            <button id="new-settings" class="btn-secondary result-btn" aria-describedby="settings-help">
+                                <span class="btn-icon" aria-hidden="true">⚙️</span>
+                                <span class="btn-text">設定を変更</span>
+                            </button>
+                        </div>
+                        <div class="sr-only">
+                            <span id="restart-help">同じ設定でクイズを再開します</span>
+                            <span id="settings-help">設定画面に戻って条件を変更します</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="quizData.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
